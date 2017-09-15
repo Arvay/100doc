@@ -332,7 +332,7 @@ header {
 }
 
 .find_nav li:nth-child(2) i {
-	height: 55px!important
+	height: 110px!important
 }
 
 .navList a {
@@ -775,7 +775,7 @@ footer {
 	width: 1200px;
 	margin: 0 auto;
 	height: 332px;
-	background: url(../../images/banner.jpg);
+	background: url(../../images/banner2.jpg);
 	background-size: 100% 100%;
 	border-bottom: 4px solid #FF893A
 }

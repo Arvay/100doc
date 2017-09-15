@@ -21,22 +21,50 @@ $(function() {
 	if(ps == "page") {
 		d = 0
 	};
-	console.log(ps);
 	var s = new TcPlayer("id_test_video", {
-		mp4: "http://ccp.alihealth.cn/static/images/xuanyi.mp4",
+		mp4: "http://ccp.alihealth.cn/static/images/suspense.mp4",
 		autoplay: !1,
 		width: "928",
 		height: "522"
 	});
-	"0" == d ? (e(), $(".liveNext h1").html("公益视频"), $(".liveTab li").eq(0).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"), s.play()) : (i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"), $(".id_test_video").css("display", "none"), $(".liveTab li").eq(1).addClass("liveTabAdd").siblings().removeClass("liveTabAdd")), $(".liveTab li").click(function() {
+	if("0" == d){
+		(e(), $(".liveNext h1").html("公益视频"), $(".liveTab li").eq(0).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"),setTimeout(function(){
+			s.play();
+		},3000))
+	}else if("1"==d){
+		(i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"), $(".id_test_video").css("display", "none"), $(".liveTab li").eq(1).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"))
+	}else if("2"==d){
+		(i(), $(".reportBox,.report").show(), $(".id_test_video").css("display", "none"), $(".liveTab li").eq(2).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"))
+	};
+	$(".liveTab li").click(function() {
 		var l = $(this).index();
-		$(this).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"), 0 == l ? (e(), $(".liveNext h1").html("公益视频"), s.play()) : (i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"))
+		 0 == l ? (e(), $(".liveNext h1").html("公益视频"), setTimeout(function(){
+		 	s.play()
+		 },3000)) : (i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"));
+		 $(this).addClass("liveTabAdd").siblings().removeClass("liveTabAdd");
+		 if(l==2){
+		 	$(".liveNext,.reportText").hide();
+		 	$(".reportBox,.report").show();
+		 };
+		 if(l!=0){
+		 	s.pause();
+		 };
+		 if(l<2){
+		 	$(".reportBox").hide();
+		 };
 	}), $(".liveRight li").click(function() {
 		l.update(), $(".liveRight").hide()
 	}), $(".el-ul").on("click", "span", function() {
 		$(".contactUsBox").hide();
 		var d = $(this).attr("class");
 		"teb2_1" == d ? (l.update(), $(".liveTab li").eq(0).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"), $(".liveNext").hide(), e()) : "teb2_2" == d && ($(".liveNext").show(), $(".liveTab li").eq(1).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"), i())
+	});
+	/**
+	 * 加载新闻
+	 */
+	$(".reportList li").click(function(){
+		var urlId = $(this).attr('id');
+		$(".reportText").load("news/xiaoyuanxing2.html").show(),$(".report").hide();
 	});
 	var a = 1,
 		t = setInterval(function() {

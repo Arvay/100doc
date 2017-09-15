@@ -10,7 +10,9 @@
 	text-align: left;
 	letter-spacing: 0
 }
-
+.liveTab li:nth-child(2){
+	display: none;
+}
 .liveBox,
 .liveNext,
 .liveRight,
@@ -143,7 +145,62 @@
 	height: 210px;
 	overflow: hidden
 }
-
+.reportBox{
+	display: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 982px;
+	float: right;
+	padding: 0 20px;
+}
+.sidebarIcon{
+	float: left;
+    width: 238px !important;
+    margin-right: 20px;
+    height: 100%;
+}
+.reportList h1{
+	text-align: left;
+    font-size: 18px;
+    color: #373B3F;
+    line-height: 34px;
+    margin-bottom: 10px;
+}
+.reportBox{
+	/*display: none;*/
+}
+.bdimgshare-bg{
+	display: none;
+}
+.reportText{
+	display: none;
+}
+.reportList li{
+	overflow: hidden;
+	width: 100%;
+    height: 134px;
+    float: left;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+.reportList h2{
+	text-align: left;
+    font-size: 14px;
+    color: #5F666E;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+}
+.reportTitle{
+	text-align: left;
+    font-size: 18px;
+    color: #373B3F;
+    line-height: 20px;
+    margin-bottom: 30px;
+}
+.report{
+	width: 100%;
+}
 .find_nav li:nth-child(2) span {
 	color: #fff!important
 }
