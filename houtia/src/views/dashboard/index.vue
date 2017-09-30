@@ -2,8 +2,8 @@
   <div class="dashboard-container">
     <div class="videoUploadBox el-upload-dragger" v-show="uploadBoxIsShow" id="dropTarget">
       <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将视频文件拖到此处，或
-        <em id="resumable-browse">点击上传</em>
+      <div class="el-upload__text">
+        <div class="el-upload__text">将文件拖到此处，或<em id="resumable-browse">点击上传</em></div>
       </div>
     </div>
     <div v-show="formBoxShow" class="formBox">
@@ -21,9 +21,8 @@
           <el-input type="textarea" :rows="2" :maxlength="255" placeholder="请输入内容" v-model="form.voidPicture"></el-input>
         </el-form-item>
         <el-form-item label="封面图：" :label-width="formLabelWidth">
-          <el-upload class="upload-demo" ref="upload" action="http://liveapi.cn/vms/v1/asset/poster" :on-success="fileImgSuccess" :headers="token" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <el-upload class="upload-demo" action="http://liveapi.cn/vms/v1/asset/poster" :on-success="fileImgSuccess" :headers="token" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item label="标签：" :label-width="formLabelWidth">
@@ -41,7 +40,7 @@
       </el-form>
       <div slot="footer" id="btnBox" class="dialog-footer" :label-width="formLabelWidth">
         <el-button @click="dialogFormVisible = false" class="marginLeft">默认配置</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false;createProgram()">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false;createProgram(true)">确 定</el-button>
       </div>
     </div>
     <echolist></echolist>
@@ -52,11 +51,13 @@
 import http from '@/utils/http'
 import http2 from '@/utils/http2'
 import api from '@/utils/api'
+import store from '@/store/index'
 import echolist from './echoList'
 export default {
   name: 'dashboard',
   components: {
-    echolist
+    echolist,
+    store
   },
   data() {
     return {
@@ -65,12 +66,13 @@ export default {
       token: { Authorization: 'Bearer ' + localStorage.getItem('yibai_token') },
       fileKey: '',
       radioDRM: '0',
+      listTotal: this.$store.state.listTotal, // 分页总数据
       targetUrl: '', // 视频上传地址
       coverUrl: '', // 上传后的图片地址
       uploadBoxIsShow: true, // 上传框
       dialogTableVisible: false,
       dialogFormVisible: false,
-      formBoxShow: false, // 视频信息框
+      formBoxShow: true, // 视频信息框
       form: {
         vaideName: '', // 视频名称
         voidPicture: '',
@@ -97,9 +99,11 @@ export default {
     this.getuploadurl()
   },
   methods: {
-    createProgram: async function() {
+
+    createProgram: async function(is) {
       var tags = JSON.stringify(this.dynamicTags)
       tags = tags.replace('[', '').replace(']', '').replace(/\"/g, '')
+      var DRM = parseInt(this.radioDRM)
       const params = {
         name: this.form.vaideName,
         cpID: 'cpid001',
@@ -107,13 +111,21 @@ export default {
         description: this.form.voidPicture,
         fileKey: this.fileKey,
         coverURL: this.coverURL,
-        isDRM: this.radioDRM,
+        isDRM: DRM,
         tags: tags
       }
       const res = await http2.post(api.createProgram, params)
       if (res.code === 0) {
+        if (is === true) {
+          this.open2('上传成功')
+        }
         // console.log('上传视频信息' + this.targetUrl)
+      }else{
+        this.open2(res.message)
       }
+    },
+    open2(mess) {
+      this.$message(mess)
     },
     // 上传图片返回地址
     fileImgSuccess(response, file, fileList) {
@@ -145,7 +157,7 @@ export default {
         this.targetUrl = result.data.uploadUrl
         result = result.data.uploadUrl.split('token=')[1]
         this.fileKey = result
-        this.createProgram()
+        this.createProgram(false)
         var that = this
         that.r = new Resumable({
           target: that.targetUrl,
@@ -162,6 +174,7 @@ export default {
         var videoLength = 0
         that.r.assignBrowse(document.getElementById('resumable-browse'))
         that.r.assignDrop(document.getElementById('dropTarget'))
+        that.r.target = 'www/baidu.com'
         that.r.on('fileAdded', function(file) {
           videoLength++
           if (videoLength > 1) {
@@ -181,6 +194,9 @@ export default {
         that.r.on('fileProgress', function(file) {
           that.progress = Math.floor(that.r.progress() * 100)
         })
+        that.r.on('catchAll', function(file, message) {
+          // alert(1)
+        })
         // 上传成功
         that.r.on('fileSuccess', function(file, message) {
           console.log(message)
@@ -192,6 +208,13 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    buildUploadUrl() {
+      // this.getuploadurl()
+      // this.getuploadurl()
+      // this.uoloadBtn()
+      // this.r.assignDrop(document.getElementById('dropTarget'))
+      // this.getuploadurl()
     },
     handleRemove(file, fileList) {
     },
@@ -209,7 +232,7 @@ export default {
     },
     // 暂停上传
     suspendUpload() {
-
+      this.r.pause()
     },
     // 删除上传
     removeUpload() {
@@ -217,7 +240,7 @@ export default {
     },
     // 继续上传
     goOnUpload() {
-
+      this.r.upload()
     },
     handleInputConfirm() {
       const inputValue = this.inputValue

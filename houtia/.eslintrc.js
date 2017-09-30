@@ -12,6 +12,10 @@ module.exports = {
     extends: 'eslint:recommended',
     // required to lint *.vue files
     plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery' ,
+            'jQuery': 'jquery'
+          }),
         'html'
     ],
     // check if imports actually resolve
@@ -22,6 +26,7 @@ module.exports = {
             }
         }
     },
+    
     // add your custom rules here
     //it is base on https://github.com/vuejs/eslint-config-vue
     'rules': {

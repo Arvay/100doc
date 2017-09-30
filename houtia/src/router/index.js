@@ -11,15 +11,16 @@ const Login = _import('login/index')
 
 /* dashboard */
 const dashboard = _import('dashboard/index')
-
+const perfect = _import('perfect/index')
 /* error page */
 const Err404 = _import('404')
 
 /* demo page */
 const Form = _import('page/form')
-const Table = _import('table/index')
-const Upload = _import('upload/index')
-
+// const Perfect = _import('perfect/index')
+const player = _import('player/index')
+//demo
+const uploadImg = _import('demo/uploadImg')
 Vue.use(Router)
 
  /**
@@ -59,23 +60,45 @@ export const asyncRouterMap = [
       { path: 'index', component: Form, name: 'Form', icon: 'zonghe' }
     ]
   },
-
   {
-    path: '/table',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/table/index',
+    redirect: '/dashboard/index',
     icon: 'tubiao',
     noDropdown: true,
-    children: [{ path: 'index', component: Table, name: 'Table', meta: { role: ['admin'] }}]
+    children: [{ path: 'index', component: dashboard, name: '上传视频'}]
   },
   {
-    path: '/upload',
+    path: '/perfect',
     component: Layout,
-    redirect: '/upload/index',
+    redirect: '/perfect/index',
     icon: 'tubiao',
     noDropdown: true,
-    children: [{ path: 'index', component: Upload, name: 'Upload', meta: { role: ['admin'] }}]
+    children: [{ path: 'index', component: perfect, name: '修改信息'}]
   },
-
+  {
+    path: '/player',
+    component: Layout,
+    redirect: '/player/index',
+    icon: 'tubiao',
+    noDropdown: true,
+    children: [{ path: 'index', component: player, name: '播放'}]
+  },
+  {
+    path: '/uploadImg',
+    component: Layout,
+    redirect: '/demo/uploadImg',
+    icon: 'tubiao',
+    noDropdown: true,
+    children: [{ path: 'index', component: uploadImg, name: 'demo'}]
+  },
+  // {
+  //   path: '/perfect',
+  //   component: Layout,
+  //   redirect: '/perfect/index',
+  //   icon: 'tubiao',
+  //   noDropdown: true,
+  //   children: [{ path: 'index', component: Perfect, name: '修改视频信息', meta: { role: ['admin'] }}]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -12,5 +12,8 @@ export default {
   createProgram: '/cms/v1/createProgram', // 创建视频
   generatetoken: '/vms/v1/user/generatetoken?uid=chengyaming&cpid=ebai', // token
   getuploadurl: '/vms/v1/asset/getuploadurl?isDrm=false', // 获取视频上传地址，  fileKey
-  queryProgram: '/cms/v1/queryProgram?cpID=cpid001&userID=user001&pageNum=2&pageSize=10'// 查询视频列表
+  queryProgram: '/cms/v1/queryProgram?', // 查询视频列表
+  getProgram: '/cms/v1/getProgram/', // 回显视频信息
+  getProgramPlaybackURL: '/cms/v1/getProgramPlaybackURL/', // 播放地址
+  updateProgram: '/cms/v1/updateProgram'// 更新视频信息
 }

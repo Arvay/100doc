@@ -10,9 +10,8 @@
           <el-input type="textarea" :rows="2" :maxlength="255" placeholder="请输入内容" v-model="form.voidPicture"></el-input>
         </el-form-item>
         <el-form-item label="封面图：" :label-width="formLabelWidth">
-          <el-upload class="upload-demo" ref="upload" action="http://liveapi.cn/vms/v1/asset/poster" :on-success="fileImgSuccess" :headers="token" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+          <el-upload class="upload-demo" action="http://liveapi.cn/vms/v1/asset/poster" :on-success="fileImgSuccess" :headers="token" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item label="标签：" :label-width="formLabelWidth">
@@ -29,11 +28,10 @@
         </el-form-item>
       </el-form>
       <div slot="footer" id="btnBox" class="dialog-footer" :label-width="formLabelWidth">
-        <el-button @click="dialogFormVisible = false" class="marginLeft">默认配置</el-button>
         <el-button type="primary" @click="dialogFormVisible = false;createProgram()">确 定</el-button>
       </div>
     </el-dialog>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="tableData" prop="id" stripe style="width: 100%">
       <el-table-column prop="name" label="标题" width="180">
       </el-table-column>
       <el-table-column prop="isDRM" label="DRM" width="180">
@@ -41,6 +39,15 @@
       <el-table-column prop="description" label="简介">
       </el-table-column>
       <el-table-column prop="tags" label="标签">
+      </el-table-column>
+      <el-table-column v-if="filekeyShow" prop="id" label="视频id">
+      </el-table-column>
+      <el-table-column v-if="filekeyShow" prop="fileKey" label="fileKey">
+      </el-table-column>
+      <el-table-column label="操作">
+        <template scope="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <div class="block">
@@ -63,9 +70,12 @@ export default {
     return {
       tableData: [],
       picArray: [],
+      filekeyShow: false,
+      getProgramNum: '',
       dialogTableVisible: false,
       dialogFormVisible: false,
       formLabelWidth: '120px',
+      coverURL: '',
       sites: [],
       totalNum: 0,
       currentPage1: 1, // 分页显示的位置
@@ -76,6 +86,8 @@ export default {
       fileList: [],
       radioDRM: '0',
       inputValue: '',
+      datatags: '',
+      dynamicTagsString: '',
       form: {
         vaideName: '', // 视频名称
         voidPicture: '',
@@ -131,9 +143,55 @@ export default {
     submitUpload() {
       this.$refs.upload.submit()
     },
+    handleEdit(index, row) {
+      this.getProgramNum = row.id
+      this.getProgram()
+    },
+    getProgram: async function() {
+      const res = await http2.get(api.getProgram + this.getProgramNum)
+      if (res.code === 0) {
+        // console.log('上传视频信息' + this.targetUrl)
+        // 修改信息回显
+        console.log(res.data.tags)
+        this.form.vaideName = res.data.name // 标题
+        this.form.voidPicture = res.data.description // 简介
+        this.fileKey = res.data.fileKey // fileKey
+        this.datatags = res.data.tags
+        this.dynamicTags = this.datatags.split(',')// 标签
+        this.radioDRM = res.data.isDRM.toString()
+        this.dialogFormVisible = true
+      }
+    },
+    // 更新视频信息
+    createProgram: async function() {
+      this.dynamicTagsString = JSON.stringify(this.dynamicTags)
+      this.dynamicTagsString = this.dynamicTagsString.replace('[', '').replace(']', '').replace(/\"/g, '')
+      var DRM = parseInt(this.radioDRM)
+      var params = {
+        id: this.getProgramNum,
+        name: this.form.vaideName,
+        cpID: 'cpid001',
+        userID: 'user001',
+        description: this.form.voidPicture,
+        fileKey: this.fileKey,
+        coverURL: this.coverURL,
+        isDRM: DRM,
+        tags: this.dynamicTagsString
+      }
+      const res = await http2.post(api.updateProgram, params)
+      if (res.code === 0) {
+        this.queryProgram(1, 10)
+        this.open2('修改成功')
+      }
+    },
+    open2(msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      })
+    },
     queryProgram: async function(pageNum, pageSize) {
       var res = await http2.get(api.queryProgram + 'pageNum=' + pageNum + '&pageSize=' + pageSize)
-      // this.tableData =
       for (var i = 0; i < res.data.data.length; i++) {
         if(res.data.data[i].tags != null){
           this.picArray = res.data.data[i].tags.split(',')
@@ -155,6 +213,10 @@ export default {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.el-tag {
+  margin-right: 10px
 }
 
 .el-col {
