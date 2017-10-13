@@ -7,7 +7,6 @@
 
 (function(){
 "use strict";
-
   var i = 0;
   var Resumable = function(opts){
     if ( !(this instanceof Resumable) ) {

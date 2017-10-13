@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<link rel='stylesheet' type='text/css' href='http://www.jq22.com/jquery/bootstrap-3.3.4.css'>
+	<link rel="stylesheet" type="text/css" href="css/common/common.css" />
+	<link rel="stylesheet" type="text/css" href="css/libs/bootstrap-datetimepicker.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.0.0/cropper.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/views/buildClassroom.css" />
+	<style type="text/css">
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+		.img_pop_up {
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, .5);
+			z-index: 999;
+			position: absolute;
+			/*display: none;*/
+			.self_img_pop_up {
+				background: #fff;
+				border-radius: 0.5rem;
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				width: 96%;
+				height: 80%;
+				margin: auto;
+				padding-top: 1rem;
+				.cut_img {
+					width: 94%;
+					height: 75%;
+					margin: 0 auto;
+					// img {
+					//   width : 100%;
+					//   height: 100%;
+					// }
+				}
+				.confirm_button {
+					width: 100%;
+					height: 25%;
+					text-align: center;
+					padding: 0 10%;
+					.rotate_div {
+						width: 100%;
+						height: 100%;
+						overflow: hidden;
+						display: flex;
+						justify-content: space-between;
+						flex-wrap: wrap;
+						align-content: space-around;
+						.picture_div {
+							border: none;
+							width: 100%;
+							height: 25%;
+							background: #e0b268;
+							border-radius: 0.5rem;
+							font-size: 1.5rem;
+							color: #fff;
+							position: relative;
+							display: table;
+							span {
+								display: table-cell;
+								vertical-align: middle;
+							}
+							input {
+								position: absolute;
+								opacity: 0;
+								left: 0;
+								top: 0;
+								height: 100%;
+								width: 100%;
+							}
+						}
+						button {
+							border: none;
+							width: 48%;
+							height: 25%;
+							background: #e0b268;
+							border-radius: 0.5rem;
+							font-size: 1.5rem;
+							color: #fff;
+						}
+					}
+				}
+			}
+		}
+	</style>
+
+	<body>
+		<div class="img_pop_up">
+			<div class="self_img_pop_up">
+				<div class="cut_img">
+					<img id="imgTest" src="" alt="">
+				</div>
+				<div class="confirm_button">
+					<div class="picture_div">
+						<input type="file" id="fileTest">
+						<span>选择图片</span>
+					</div>
+					<div class="rotate_div">
+						<button class="rotate_left">向左旋转</button>
+						<button class="rotate_right">向右旋转</button>
+					</div>
+					<button class="cancel_choose">取消</button>
+					<button class="confirm_choose">确定</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src='http://www.jq22.com/jquery/jquery-1.9.1.js'></script>
+	<script src="js/libs/bootstrap-datetimepicker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/libs/bootstrap-datetimepicker.fr.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.0.0/cropper.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/views/bulidClassroom.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		// 监听上传变化
+     $('#fileTest').live('change', function(ev) {
+           let $file = $(this);
+           let fileObj = $file[0];
+           let windowURL = window.URL || window.webkitURL;
+           let dataURL = null;
+           if (!fileObj || !fileObj.files || !fileObj.files[0]) return;
+           dataURL = windowURL.createObjectURL(fileObj.files[0]);
+           $("#imgTest").attr('src', dataURL);
+           $("#imgTest").cropper({
+                aspectRatio: 1 / 1,
+                viewMode : 1,
+                rotatable: true,
+                guides :false,//裁剪框虚线 默认true有
+                dragMode : "move",
+                background : true,// 容器是否显示网格背景
+                movable : true,//是否能移动图片
+                cropBoxMovable :false,//是否允许拖动裁剪框
+                cropBoxResizable :false,//是否允许拖动 改变裁剪框大小
+           });
+           $("#imgTest").cropper('replace', dataURL);
+           // 点击弹出
+    $('.self_logo_up').off().on('click', function() {
+        $('.img_pop_up').css('display', 'block');
+    })
+    // 向左旋转
+ $('.rotate_left').off().on('click', function() {
+      $("#imgTest").cropper('rotate', -45);
+})
+ // 向右旋转
+$('.rotate_right').off().on('click', function() {
+    $("#imgTest").cropper('rotate', 45);
+})
+// 点击确定
+   $('.confirm_button .confirm_choose').off().on('click', function() {
+          if ($("#imgTest").cropper('getCroppedCanvas') == null)  return;
+          let base64 = $("#imgTest").cropper('getCroppedCanvas').toDataURL('base64', 0.3);
+    $('.self_bg').remove();
+    const logoImg = `<div class="self_bg" style="display:block;">
+                          ![](${base64})
+                      </div>`
+    $('.self_logo_up').append(logoImg);
+
+    // 清空
+    $("#imgTest").cropper('reset');
+    $('.img_pop_up').css('display', 'none');
+    clear();
+});
+});
+</html>

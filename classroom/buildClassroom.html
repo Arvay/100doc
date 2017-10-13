@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>创建课堂</title>
+		<link rel='stylesheet' type='text/css' href='http://www.jq22.com/jquery/bootstrap-3.3.4.css'>
+		<link rel="stylesheet" type="text/css" href="css/common/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/libs/bootstrap-datetimepicker.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.0.0/cropper.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/views/buildClassroom.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="buildMain">
+				<input id="buildUpload" name="file" accept="image/*" type="file" />
+				<div class="form-group">
+					<label class="inputName" for="liveTitle"><span>*</span>直播标题</label>
+					<input type="text" class="form-control liveTitle" placeholder="">
+				</div>
+				<div class="form-group">
+					<label class="inputName" for="liveJacket "><span>*</span>直播封面</label>
+					<div id="liveJacket">
+						<img src="images/uploadImg.png" data-toggle="modal" data-target="#buildImgUpload" />
+					</div>
+				</div>
+				<div class="form-group timeImg">
+					<label class="inputName" for="startTime "><span>*</span>开始时间</label>
+					<input type="text" value="" class="form-control inputMin" id="startTime">
+				</div>
+				<div class="form-group timeImg">
+					<label class="inputName" for="endTime "><span>*</span>结束时间</label>
+					<input type="text" value="" class="form-control inputMin" id="endTime">
+				</div>
+				<div class="form-group">
+					<label class="inputName" for="endTime "><span>*</span>产品标签</label>
+					<div class="userList">
+						<ul>
+							<li>1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+						</ul>
+					</div>
+					<div class="buildInputBtn productLabelBtn greenColor" data-toggle="modal" data-target="#myModalLine">选择产品</div>
+				</div>
+				<div class="form-group">
+					<label class="inputName" for="endTime "><span>*</span>科室标签</label>
+					<div class="userList">
+						<ul>
+							<li>1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+						</ul>
+					</div>
+					<div class="buildInputBtn productLabelBtn greenColor" data-toggle="modal" data-target="#myModalSection">选择科室</div>
+				</div>
+				<div class="form-group">
+					<label class="inputName" for="endTime "><span style="opacity: 0;">*</span>直播讲师</label>
+					<div class="userList">
+						<ul>
+							<li>1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+						</ul>
+					</div>
+					<div class="buildInputBtn productLabelBtn greenColor" data-toggle="modal" data-target="#myModalReader">选择讲师</div>
+					<div class="tip">提示：不设置讲师时，默认创建自己演讲</div>
+				</div>
+				<div class="form-group">
+					<label class="inputName" for="endTime "><span style="opacity: 0;">*</span>参会医生</label>
+					<div class="userList">
+						<ul>
+							<li>1</li>
+							<li>2</li>
+							<li>3</li>
+							<li>4</li>
+						</ul>
+					</div>
+					<div class="buildInputBtn productLabelBtn greenColor">选择医生</div>
+					<div class="tip">提示：除创建者外，只有被选择的医生才能看到直播</div>
+				</div>
+				<div class="form-group">
+					<label class="inputName" for="liveTitle"><span>*</span>直播简介</label>
+					<input type="text" class="form-control liveTitle" placeholder="">
+					<textarea class="form-control buildTextarea" rows="8"></textarea>
+				</div>
+				<div class="footerBtn">
+					<div class="buildSaveBtn greenColor">保存</div>
+					<div class="buildOffBtn gloomyColor">取消</div>
+				</div>
+			</div>
+			<!--上传图片模态框-->
+			<div class="modal fade" id="buildImgUpload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header greenColor">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+							<h4 class="modal-title" id="myModalLabel">上传图片</h4>
+						</div>
+						<div class="modal-body modalUpload">
+							<div id="fileImg" class="fileBtn greenColor">
+								浏览...</div>
+							<div class="container2">
+								<img id="preview" src="images/2017-03-08 171828.jpg" />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="uploadUrl" class="greenColor btnInfo">保存</button>
+							<button type="button" class="gloomyColor defaultBtn" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--产品标签-->
+			<div class="modal fade" id="myModalLine" tabindex="-1" role="dialog" aria-labelledby="myModalLine" aria-hidden="true">
+				<div class="modal-dialog modalBoxLine">
+					<div class="modal-content">
+						<div class="modal-header greenColor">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+							<h4 class="modal-title">选择产品</h4>
+						</div>
+						<div class="modal-body modalLine">
+							<ul class="lineList">
+								<li class="afterShow">第平息</li>
+								<li>复方氨林巴比妥注射液</li>
+								<li>精蛋白生物合成人胰岛素注射液</li>
+								<li>杜令丁</li>
+								<li>啊实打实的</li>
+							</ul>
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="uploadUrl" class="greenColor btnInfo">保存</button>
+							<button type="button" class="gloomyColor defaultBtn" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--选择科室-->
+			<div class="modal fade" id="myModalSection" tabindex="-1" role="dialog" aria-labelledby="myModalSection" aria-hidden="true">
+				<div class="modal-dialog modalBoxLine">
+					<div class="modal-content">
+						<div class="modal-header greenColor">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+							<h4 class="modal-title">选择科室</h4>
+						</div>
+						<div class="modal-body modalLine">
+							<ul class="lineList">
+								<li class="afterShow">第平息</li>
+								<li>复方氨林巴比妥注射液</li>
+								<li>精蛋白生物合成人胰岛素注射液</li>
+								<li>杜令丁</li>
+								<li>啊实打实的</li>
+							</ul>
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="uploadUrl" class="greenColor btnInfo">保存</button>
+							<button type="button" class="gloomyColor defaultBtn" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--选择讲师-->
+			<div class="modal fade" id="myModalReader" tabindex="-1" role="dialog" aria-labelledby="myModalReader" aria-hidden="true">
+				<div class="modal-dialog modalBoxLine">
+					<div class="modal-content">
+						<div class="modal-header greenColor">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+							<h4 class="modal-title">选择讲师</h4>
+						</div>
+						<div class="modal-body modalLine">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>选择</th>
+										<th>姓名</th>
+										<th>手机号</th>
+										<th>性别</th>
+										<th>医院</th>
+										<th>职称</th>
+										<th>科室</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><div class="radio"></div></td>
+										<td>Bangalore</td>
+										<td>Bangalore</td>
+										<td>Bangalore</td>
+										<td>Bangalore</td>
+										<td>Bangalore</td>
+										<td>Bangalore</td>
+									</tr>
+									<tr>
+										<td><div class="radio"></div></td>
+										<td>Mumbai</td>
+										<td>Mumbai</td>
+										<td>Mumbai</td>
+										<td>Mumbai</td>
+										<td>Mumbai</td>
+										<td>Mumbai</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" id="uploadUrl" class="greenColor btnInfo">保存</button>
+							<button type="button" class="gloomyColor defaultBtn" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src='http://www.jq22.com/jquery/jquery-1.9.1.js'></script>
+	<script src='http://www.jq22.com/jquery/bootstrap-3.3.4.js'></script>
+	<script src="js/libs/bootstrap-datetimepicker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/libs/bootstrap-datetimepicker.fr.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.0.0/cropper.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/views/bulidClassroom.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

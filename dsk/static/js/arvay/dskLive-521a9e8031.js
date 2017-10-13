@@ -30,7 +30,7 @@ $(function() {
 	if("0" == d){
 		(e(), $(".liveNext h1").html("公益视频"), $(".liveTab li").eq(0).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"),setTimeout(function(){
 			s.play();
-		},3000))
+		},5000))
 	}else if("1"==d){
 		(i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"), $(".id_test_video").css("display", "none"), $(".liveTab li").eq(1).addClass("liveTabAdd").siblings().removeClass("liveTabAdd"))
 	}else if("2"==d){
@@ -40,7 +40,7 @@ $(function() {
 		var l = $(this).index();
 		 0 == l ? (e(), $(".liveNext h1").html("公益视频"), setTimeout(function(){
 		 	s.play()
-		 },3000)) : (i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"));
+		 },5000)) : (i(), $(".liveNext").show(), $(".liveNext h1").html("公益直播"));
 		 $(this).addClass("liveTabAdd").siblings().removeClass("liveTabAdd");
 		 if(l==2){
 		 	$(".liveNext,.reportText").hide();
@@ -64,7 +64,7 @@ $(function() {
 	 */
 	$(".reportList li").click(function(){
 		var urlId = $(this).attr('id');
-		$(".reportText").load("news/xiaoyuanxing2.html").show(),$(".report").hide();
+		$(".reportText").load("news/"+urlId+".html").show(),$(".report").hide();
 	});
 	var a = 1,
 		t = setInterval(function() {

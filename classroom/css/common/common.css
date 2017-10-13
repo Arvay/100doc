@@ -1,0 +1,166 @@
+body {
+	font-family: "微软雅黑", "Arial Narrow", HELVETICA;
+	text-align: center;
+	margin: 0 auto;
+	padding: 0;
+	font-size: 12px;
+}
+
+div,
+form,
+ul,
+ol,
+li,
+span,
+p,
+dl,
+dd,
+dt {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+img,
+a img {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+ul,
+ol,
+li {
+	list-style: none
+}
+
+html,
+body {
+	background: #fff;
+}
+
+input {
+	cursor: pointer;
+	background: #F7F7F7 !important;
+	height: 34px !important;	
+	border: 1px solid #E5E5E5;
+	border-radius: 0 !important;
+}
+/*保存选择按钮颜色*/
+.greenColor{
+	background: #32C27C;
+}
+/*取消 输入框底色*/
+.gloomyColor{
+	background: #f7f7f7;
+}
+.btnInfo{
+	outline: none;
+	color: #fff;
+}
+.btnInfo:hover{
+	opacity: .8;
+	color: #fff;
+}
+/*模态框按钮高度*/
+.btnHeight{
+	width: 70px;
+	height: 24px;
+}
+.defaultBtn{
+	outline: none;
+	border: 1px solid #E5E5E5 !important;
+	margin-right: 20px;
+	margin-left: 12px;
+}
+.defaultBtn:hover{
+	opacity: .8;
+}
+.container {
+	padding-top: 40px;
+	width: 1200px;
+	padding-bottom: 40px;
+}
+
+
+/*输入框标题*/
+
+.inputName {
+	float: left;
+	font-size: 14px;
+	font-weight: 500 !important;
+	line-height: 34px;
+	color: #333333;
+	margin-right: 20px;
+}
+.inputName span{
+	font-size: 22px;
+	color: #FF5B5B;
+	float: left;
+	margin-top: 4px;
+	margin-right: 2px;
+}
+/*模态框*/
+.modal-content{
+	overflow: hidden;
+	border: none;
+}
+.modal-body{
+	overflow: hidden;
+}
+.modal-header{
+	height: 30px;
+	color: #fff;
+	padding: 0;	
+	border: none;
+}
+.modal-title{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding-left: 20px;
+	text-align: left;
+	line-height: 30px !important;
+}
+.modal-footer{
+	padding: 0;
+	height: 48px;
+	padding-top: 14px;
+}
+.modal-footer button{
+	border: none;
+	width: 70px;
+	height: 24px;
+	padding: 0;
+	font-size: 14px;
+}
+tbody td{
+	vertical-align: inherit !important;
+}
+.close{
+	margin: 0 !important;
+	color: #fff;
+	opacity: 1;
+	line-height: inherit;
+	text-shadow: none;
+	font-size: 24px;
+	line-height: 28px;
+	margin-right: 14px !important;
+	font-weight: 400;
+}
+.close:hover{
+	color: #fff;
+	opacity: .8;
+}
